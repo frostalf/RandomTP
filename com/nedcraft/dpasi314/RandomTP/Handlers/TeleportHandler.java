@@ -205,10 +205,10 @@ public class TeleportHandler {
             return false;
         }
 
-        if (loc.getBlock().getType() != Material.AIR) {
-            player.sendMessage(ChatColor.RED + "ERROR: The location " + ChatColor.GOLD + "(" + ChatColor.RED + loc.getX() + ChatColor.GOLD + ", " + ChatColor.RED + loc.getY() + ChatColor.GOLD + ", " + ChatColor.RED + loc.getZ() + ChatColor.GOLD + ")" + ChatColor.RED + " could cause you to die!!");
-            return false;
-        }
+         if (loc.getBlock().getType() != Material.AIR || loc.getBlock().getRelative(BlockFace.DOWN).getType() == Material.LAVA) {
+	            player.sendMessage(ChatColor.RED + "ERROR: The location " + ChatColor.GOLD + "(" + ChatColor.RED + loc.getX() + ChatColor.GOLD + ", " + ChatColor.RED + loc.getY() + ChatColor.GOLD + ", " + ChatColor.RED + loc.getZ() + ChatColor.GOLD + ")" + ChatColor.RED + " could cause you to die!!");
+	            return false;
+	        }
         return true;
     }
 }
