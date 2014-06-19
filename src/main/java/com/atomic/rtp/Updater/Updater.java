@@ -1,10 +1,5 @@
-/*
- * Updater for Bukkit.
- *
- * This class provides the means to safely and easily update a plugin, or check to see if it is updated using dev.bukkit.org
- */
+package com.atomic.rtp.Updater;
 
-package com.nedcraft.dpasi314.RandomTP.Updater;
 
 import java.io.*;
 import java.net.MalformedURLException;

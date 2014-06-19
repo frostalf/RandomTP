@@ -1,0 +1,21 @@
+# RandomTP made by Dpasi314
+# Config Set up as follows:
+# MAX values are the max coords for teleportation; No Negative numbers
+# World is the world you want the player to be teleported when they use the command
+# Teleport Once allows only one-time teleports
+# Cost is the cost to teleport (MUST HAVE iCONOMY INSTALLED)
+# Cooldown Time is the time in seconds it takes for a cooldown
+# !![WARNING]!! TELEPORT_ONCE_ENABLED IS STILL CURRENTLY BEING DEVELOPED!
+# Enable Auto-Update if you want RandomTP to automatically update!
+
+RandomTP:
+  Teleport:
+    MAX_X: 1000
+    MAX_Z: 1000
+    WORLD: world
+    COST_ENABLED: false
+    COOLDOWN_ENABLED: false
+    COST: 0.0
+    COOLDOWN_TIME: 0
+  Updater:
+    Auto-Update: false
