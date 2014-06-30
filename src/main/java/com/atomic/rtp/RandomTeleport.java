@@ -24,12 +24,6 @@ public class RandomTeleport extends JavaPlugin {
     public void onEnable() {
         init();
         print("Enabled!");
-        try {
-        Metrics metrics = new Metrics(this);
-        metrics.start();
-        } catch (IOException e) {
-            // Failed to submit the stats :-(
-        }
     }
 
     public void onDisable() {
