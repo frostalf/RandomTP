@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class TeleportHandler {
     int zCoord = -1;
     int xF = 0, yF = 0, zF = 0;
     String uuid;
+    static List<String> biomes = null;
+    static List<String> blocks = null;
 
     public TeleportHandler(Player player, World world, int xCoord, int zCoord) {
         this.player = player;
@@ -74,12 +77,44 @@ public class TeleportHandler {
         return loc;
     }
 
+    public static void setBadBiomes(List<String> badBiomes) {
+        biomes = badBiomes;
+    }
+
+    public static void setBadBlocks(List<String> badBlocks) {
+        blocks = badBlocks;
+    }
+
     protected Location safeize(Location location) {
+        //Attempt to make the Y the highest block so players don't die.
+        location.setY(location.getWorld().getHighestBlockYAt(location));
+
         while(location.getBlock().getType() != Material.AIR) {
              location.setX(location.getX() + 1);
              location.setZ(location.getZ() + 1);
              location.setY(location.getY() + 1);
         }
+
+        while(player.getEyeLocation().getBlock().getType() != Material.AIR) {
+            location.setX(location.getX() + 1);
+            location.setY(location.getY() + 1);
+            location.setZ(location.getZ() + 1);
+        }
+
+        String block = location.getBlock().getType().name();
+        String biome = location.getBlock().getBiome().name();
+
+        if(biomes.contains(biome)) {
+            location = getLocation();
+        }
+
+        if(blocks.contains(block)) {
+            location = getLocation();
+        }
+
+        // Do it again just in case Y gets fucked over in the code above.
+        location.setY(location.getWorld().getHighestBlockYAt(location));
+
         return location;
     }
 

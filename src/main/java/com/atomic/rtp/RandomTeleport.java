@@ -42,6 +42,10 @@ public class RandomTeleport extends JavaPlugin {
 
     /* Register ALL commands */
     private void registerCommands() {
+        List<String> blocks = getConfig().getStringList("RandomTP.Teleport.BlocksNotToSpawnOn");
+        List<String> biomes = getConfig().getStringList("RandomTP.Teleport.BiomesNotToSpawnIn");
+        TeleportHandler.setBadBiomes(biomes);
+        TeleportHandler.setBadBlocks(blocks);
         getCommand("randomtp").setExecutor(new RTPCommand(this));
     }
 
@@ -50,22 +54,6 @@ public class RandomTeleport extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GlobalListener(this), this);
     }
 
-
-    private void setAllPlayers() {
-        File file = new File(getDataFolder(), "players.txt");
-        List<String> list = new ArrayList<String>();
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                list.add(line);
-            }
-
-        } catch (IOException e) {
-
-        }
-        TeleportHandler th = new TeleportHandler(null, null, -1, -1);
-    }
 
     private void initFiles() {
         File file = new File(getDataFolder(), "config.yml");

@@ -17,5 +17,11 @@ RandomTP:
     COOLDOWN_ENABLED: false
     COST: 0.0
     COOLDOWN_TIME: 0
+    BiomesNotToSpawnIn:
+      - OCEAN
+      - RIVER
+      - DEEP_OCEAN
+    BlocksNotToSpawnIn:
+      - CACTUS
   Updater:
     Auto-Update: false
