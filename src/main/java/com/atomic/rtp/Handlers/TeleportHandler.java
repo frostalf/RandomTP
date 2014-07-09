@@ -71,7 +71,10 @@ public class TeleportHandler {
         z = randomizeType(z);
         int y = 63;
 
-        Location loc = safeize(new Location(world, x, y, z));
+        int spawnX = (int) this.world.getSpawnLocation().getX();
+        int spawnY = (int) this.world.getSpawnLocation().getY();
+        
+        Location loc = safeize(new Location(world, x + spawnX, y + spawnY, z));
         set(loc.getX(), loc.getY(), loc.getZ());
 
         return loc;
