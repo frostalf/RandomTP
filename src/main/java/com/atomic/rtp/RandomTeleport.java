@@ -23,6 +23,9 @@ import org.bukkit.Bukkit;
  */
 public class RandomTeleport extends JavaPlugin {
 
+    static boolean UPDATE;
+    static String NEWVERSION;
+
     @Override
     public void onEnable() {
         init();
@@ -117,32 +120,29 @@ public class RandomTeleport extends JavaPlugin {
 
     // The method will only do something if Auto-Update is set to true
     private void updateCheck() {
-        if (this.getConfig().getBoolean("RandomTP.Updater.Auto-Update") == true) {
-            Updater updater = new Updater(this, 50736, this.getFile(), Updater.UpdateType.DEFAULT, false);
-
-            Updater.UpdateResult result = updater.getResult();
-
-            switch (result) {
-                case SUCCESS:
-                    System.out.println("[RandomTP] A new version of RandomTP is available - Will download at next restart (" + updater.getLatestName() + ")");
-                    break;
-                case NO_UPDATE:
-                    System.out.println("[RandomTP] Your version of RandomTP is up to date!");
-                    break;
-                case UPDATE_AVAILABLE:
-                    System.out.println("[RandomTP] There is a new version of RandomTP available! - Downloading disabled!");
-                    break;
-                default:
-                    System.out.println("[RandomTP] Uh-oh! Something went wrong! Please check the API Key, Plugin ID, or DBO status!");
-                    break;
-            }
+        if (getConfig().get("RandomTP.Updater.Auto-Update") == null) {
+            getConfig().set("RandomTP.Updater.Auto-Update", true);
+            saveConfig();
         }
-
-        if (this.getConfig().getBoolean("RandomTP.Updater.Auto-Update") == false) {
+        if (getConfig().getBoolean("RandomTP.Updater.Auto-Update")) {
+            final RandomTeleport plugin = this;
+            final File file = this.getFile();
+            final Updater.UpdateType updateType = Updater.UpdateType.DEFAULT;
+            getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+                @Override
+                public void run() {
+                    Updater updater = new Updater(plugin, 50736, file, updateType, false);
+                    RandomTeleport.UPDATE = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
+                    RandomTeleport.NEWVERSION = updater.getLatestName();
+                    if (updater.getResult() == Updater.UpdateResult.SUCCESS) {
+                        getLogger().log(Level.INFO, "Successfully updated ServerTutorial to version {0} for next restart!", updater.getLatestName());
+                    }
+                }
+            });
+        }
+        if (!this.getConfig().getBoolean("RandomTP.Updater.Auto-Update")) {
             System.out.println("[RandomTP] Auto-Updater disabled! If you would like to have RandomTP Update itself please set Enable to true!");
-
         }
-
     }
 
     private boolean checkForPlugin(Plugin plugin) {
