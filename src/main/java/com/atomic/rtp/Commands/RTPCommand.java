@@ -70,7 +70,7 @@ public class RTPCommand implements CommandExecutor {
 
         if((Boolean) ch.get(Value.COST_ENABLED)) {
             double cost = (Double) ch.get(Value.COST);
-            iConomyHandler ico = new iConomyHandler(plugin, player);
+            VaultHandler ico = new VaultHandler(plugin, player);
 
             if(ico.check(cost)) {
                 ico.remove((Double) ch.get(Value.COST));

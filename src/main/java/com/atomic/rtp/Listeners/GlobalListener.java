@@ -129,7 +129,7 @@ public class GlobalListener implements Listener {
 
                     if((Boolean) ch.get(Value.COST_ENABLED)) {
                         double cost = (Double) ch.get(Value.COST);
-                        iConomyHandler ico = new iConomyHandler(plugin, p);
+                        VaultHandler ico = new VaultHandler(plugin, p);
 
                         if(ico.check(cost)) {
                             ico.remove((Double) ch.get(Value.COST));
