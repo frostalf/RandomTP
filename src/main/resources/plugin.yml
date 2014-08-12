@@ -1,6 +1,6 @@
 name: RandomTeleport
 main: com.atomic.rtp.RandomTeleport
-version: maven-version-number
+version: maven-version
 description: Random Teleport
 commands:
   randomtp:
