@@ -1,7 +1,6 @@
 package com.atomic.rtp.Handlers;
 
 import com.atomic.rtp.RandomTeleport;
-import com.iCo6.system.Account;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

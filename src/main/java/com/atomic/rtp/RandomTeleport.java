@@ -6,6 +6,7 @@ import com.atomic.rtp.Handlers.ConfigHandler;
 import com.atomic.rtp.Handlers.TeleportHandler;
 import com.atomic.rtp.Listeners.GlobalListener;
 import com.atomic.rtp.Updater.Updater;
+import com.atomic.rtp.util.DependencyGraphUtil;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
+import org.bukkit.Bukkit;
 
 /**
  * Dante Pasionek created: com.atomic.rtp on Jun. 04, 2014 *
  */
 public class RandomTeleport extends JavaPlugin {
 
+    @Override
     public void onEnable() {
         init();
         print("Enabled!");
@@ -32,6 +35,7 @@ public class RandomTeleport extends JavaPlugin {
         }
     }
 
+    @Override
     public void onDisable() {
         ConfigHandler ch = new ConfigHandler(this);
         print("Disabled!");
@@ -46,6 +50,40 @@ public class RandomTeleport extends JavaPlugin {
         ConfigHandler ch = new ConfigHandler(this);
     }
 
+    private void startMetrics() {
+        if(getConfig().get("metrics") == null) {
+            getConfig().set("metrics", true);
+            saveConfig();
+        }
+        if(getConfig().getBoolean("metrics")) {
+            try {
+                Metrics metrics = new Metrics(this);
+                metrics.start();
+                
+                Metrics.Graph dependingPlugins = metrics.createGraph("Depending Plugins");
+                synchronized (Bukkit.getPluginManager()) {
+                    for (final Plugin otherPlugin : DependencyGraphUtil.getPluginsUnsafe()) {
+                        if (!otherPlugin.isEnabled()) {
+                            continue;
+                        }
+                        if (!DependencyGraphUtil.isDepending(otherPlugin, this) && !DependencyGraphUtil.isSoftDepending(otherPlugin, this)) {
+                            continue;
+                        }
+                        dependingPlugins.addPlotter(new Metrics.Plotter(otherPlugin.getName()) {
+                            @Override
+                            public int getValue() {
+                                return 1;
+                            }
+                        });
+                    }
+                }
+                metrics.addGraph(dependingPlugins);
+                } catch (IOException ex) {
+                    getLogger().warning("Failed to load metrics :(");
+                }
+        }
+    }
+    
     /* Register ALL commands */
     private void registerCommands() {
         List<String> blocks = getConfig().getStringList("RandomTP.Teleport.BlocksNotToSpawnOn");
