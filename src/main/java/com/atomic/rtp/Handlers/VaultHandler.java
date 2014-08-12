@@ -8,13 +8,13 @@ import org.bukkit.entity.Player;
 /**
  * Dante Pasionek created: com.atomic.rtp.Handlers on Jun. 05, 2014 *
  */
-public class iConomyHandler {
+public class VaultHandler {
     RandomTeleport plugin;
     Player player;
     Account account;
     double amountRemoved;
 
-    public iConomyHandler(RandomTeleport plugin, Player player) {
+    public VaultHandler(RandomTeleport plugin, Player player) {
         this.plugin = plugin;
         this.player = player;
         account = getAccount(player);
