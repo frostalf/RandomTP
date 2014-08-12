@@ -18,14 +18,13 @@ import java.util.logging.Level;
  */
 public class RTPCommand implements CommandExecutor {
 
-    RandomTeleport plugin;
+    RandomTeleport plugin = RandomTeleport.getInstance();
     MessageHandler mh;
     ConfigHandler ch;
 
-    public RTPCommand(RandomTeleport plugin) {
-        this.plugin = plugin;
+    public RTPCommand() {
         mh = new MessageHandler();
-        ch = new ConfigHandler(plugin);
+        ch = new ConfigHandler();
 
     }
 

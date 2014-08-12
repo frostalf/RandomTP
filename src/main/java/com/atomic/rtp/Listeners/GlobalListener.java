@@ -23,11 +23,10 @@ import org.bukkit.block.Sign;
  */
 public class GlobalListener implements Listener {
 
-    RandomTeleport plugin;
+    RandomTeleport plugin = RandomTeleport.getInstance();
     MessageHandler mh;
 
-    public GlobalListener(RandomTeleport plugin) {
-        this.plugin = plugin;
+    public GlobalListener() {
         mh = new MessageHandler();
     }
 
@@ -92,7 +91,7 @@ public class GlobalListener implements Listener {
                     }
 
 
-                    ConfigHandler ch = new ConfigHandler(plugin);
+                    ConfigHandler ch = new ConfigHandler();
 
                     if((Boolean) ch.get(Value.COOLDOWN_ENABLED)) {
                         if(CooldownHandler.areTherePlayersInTheMap() == false) {

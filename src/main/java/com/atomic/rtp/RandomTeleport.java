@@ -25,6 +25,7 @@ public class RandomTeleport extends JavaPlugin {
 
     static boolean UPDATE;
     static String NEWVERSION;
+    private static RandomTeleport instance;
 
     @Override
     public void onEnable() {
@@ -38,19 +39,13 @@ public class RandomTeleport extends JavaPlugin {
         }
     }
 
-    @Override
-    public void onDisable() {
-        ConfigHandler ch = new ConfigHandler(this);
-        print("Disabled!");
-    }
-
     /* Initalize EVERYTHING */
     private void init() {
         registerCommands();
         registerListeners();
         initFiles();
         updateCheck();
-        ConfigHandler ch = new ConfigHandler(this);
+        ConfigHandler ch = new ConfigHandler();
     }
 
     private void startMetrics() {
@@ -93,12 +88,12 @@ public class RandomTeleport extends JavaPlugin {
         List<String> biomes = getConfig().getStringList("RandomTP.Teleport.BiomesNotToSpawnIn");
         TeleportHandler.setBadBiomes(biomes);
         TeleportHandler.setBadBlocks(blocks);
-        getCommand("randomtp").setExecutor(new RTPCommand(this));
+        getCommand("randomtp").setExecutor(new RTPCommand());
     }
 
     /* Register ALL listeners */
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new GlobalListener(this), this);
+        getServer().getPluginManager().registerEvents(new GlobalListener(), this);
     }
 
 
@@ -146,10 +141,11 @@ public class RandomTeleport extends JavaPlugin {
     }
 
     private boolean checkForPlugin(Plugin plugin) {
-        if (getServer().getPluginManager().isPluginEnabled(plugin))
-            return true;
-        else
-            return false;
+        return getServer().getPluginManager().isPluginEnabled(plugin);
+    }
+
+    public static RandomTeleport getInstance() {
+        return instance;
     }
 
     private void print(String message) {

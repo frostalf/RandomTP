@@ -9,11 +9,9 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 public class ConfigHandler {
 
-    RandomTeleport plugin;
+    RandomTeleport plugin = RandomTeleport.getInstance();
 
-    public ConfigHandler(RandomTeleport plugin) {
-        this.plugin = plugin;
-    }
+    public ConfigHandler() {}
 
     public Object get(Value value) {
         FileConfiguration config = plugin.getConfig();
