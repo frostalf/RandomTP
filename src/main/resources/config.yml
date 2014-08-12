@@ -7,6 +7,7 @@
 # Cooldown Time is the time in seconds it takes for a cooldown
 # !![WARNING]!! TELEPORT_ONCE_ENABLED IS STILL CURRENTLY BEING DEVELOPED!
 # Enable Auto-Update if you want RandomTP to automatically update!
+metrics: true
 
 RandomTP:
   Teleport:
